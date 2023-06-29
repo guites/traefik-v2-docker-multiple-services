@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+    laravel_app:
+        restart: always
+        container_name: laravel-app
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+              USER_UID: ${USER_UID:-501}
+              USER_GID: ${USER_GID:-20}
+              USERNAME: ${USERNAME:-guilhermegarcia}
+        volumes:
+            - type: bind
+              source: .
+              target: /var/www/html
+        ports:
+          - '8000:80'
+          #- '5173:5173'
+        command: php artisan serve --host=0.0.0.0
+        labels:
+          - traefik.enable=true
+          - traefik.http.routers.laravel.rule=Host(`app.test`)
+        depends_on:
+            - traefik
