@@ -1,4 +1,6 @@
-FROM php:8.0.0-fpm
+FROM php:8.2-fpm
+
+ARG NODE_VERSION=18
 
 RUN apt-get update && apt-get upgrade -y \
     && apt-get install -y \
@@ -58,7 +60,7 @@ RUN apt-get update && apt-get upgrade -y \
     && rm -rf /tmp/* /var/tmp/*
 
 # Add npm
-RUN curl -sL https://deb.nodesource.com/setup_15.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash -
 RUN apt-get update \
  && apt-get install -y \
  nodejs
